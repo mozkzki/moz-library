@@ -1,0 +1,59 @@
+version: 2.0
+
+jobs:
+    build:
+        working_directory: ~/project
+        docker:
+            # CircleCI Python イメージ: https://hub.docker.com/r/circleci/python/
+            # browsersをつける
+            - image: circleci/python:3.6.4-browsers
+              environment:
+                  PIPENV_VENV_IN_PROJECT: true
+        steps:
+            - run:
+                  # 日本語ファイルがチェックアウトできない問題に対処
+                  command: "git config --global core.quotepath false"
+            - checkout
+            - run: sudo chown -R circleci:circleci /usr/local/bin
+            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+            - restore_cache:
+                  # 依存関係キャッシュについて: https://circleci.com/docs/ja/2.0/caching/
+                  key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - run:
+                  name: chromeのバージョン確認
+                  command: |
+                      whereis google-chrome-stable
+                      google-chrome-stable --version
+            - run:
+                  name: chromedriverのバージョン確認
+                  command: |
+                      whereis chromedriver
+                      chromedriver --version
+            - run:
+                  name: pythonモジュール導入
+                  command: |
+                      sudo pip install pipenv
+                      pipenv install --dev
+                      pipenv run pip install -e .
+            - save_cache: # Pipfile のチェックサムをキャッシュキーとして使用して、Python の依存関係をキャッシュします
+                  key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+                  paths:
+                      - ".venv"
+                      - "/usr/local/bin"
+                      - "/usr/local/lib/python3.6/site-packages"
+            - run:
+                  name: lint
+                  command: |
+                      pipenv run flake8 --max-line-length=100 --ignore=E203,W503 ./mmlibrary
+            - run:
+                  name: unit test
+                  command: |
+                      openssl aes-256-cbc -base64 -k $DECRYPT_KEY -d -in .env.enc.circle -out .env
+                      mkdir test-reports
+                      pipenv run py.test -v --junitxml=test-reports/junit.xml --capture=no --cov-config .coveragerc --cov=mmlibrary .
+                      bash <(curl -s https://codecov.io/bash)
+            - store_test_results: # テストサマリー (https://circleci.com/docs/ja/2.0/collect-test-data/) に表示するテスト結果をアップロードします
+                  path: test-reports
+            - store_artifacts: # アーティファクト (https://circleci.com/docs/ja/2.0/artifacts/) に表示するテストサマリーをアップロードします
+                  path: test-reposrts
+                  destination: tr1
