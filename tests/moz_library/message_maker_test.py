@@ -1,6 +1,7 @@
 import pytest
 from moz_library.message_maker import MessageMaker
 from moz_library.rental_books import RentalBooks
+from moz_library.rental_book import RentalBook
 from moz_library.reserved_book import ReservedBook
 from moz_library.reserved_books import ReservedBooks
 from moz_library.user import User
@@ -26,6 +27,8 @@ class TestMessageMaker:
     @pytest.mark.parametrize("zero_behavior", [("message"), ("none")])
     def test_empty(self, zero_behavior, message_maker1: MessageMaker):
         rental_books = RentalBooks()
+        book = RentalBook("test", "2017/01/01", True, "hoge")
+        rental_books.append(book)
         reserved_books = ReservedBooks()
         empty_info = UserBookInfo(
             User("{}"), rental_books=rental_books, reserved_books=reserved_books

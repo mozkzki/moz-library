@@ -49,3 +49,7 @@ class TestRentalBook:
         d = today + timedelta(days=delta)
         book: RentalBook = RentalBook("test", d.strftime("%Y/%m/%d"), True, "hoge")
         assert book.get_expire_text_from_today() == expected_text
+
+    def test_get_list_string(self):
+        book = RentalBook("test", "2017/01/01", True, "hoge")
+        assert book.get_list_string() == "test,2017-01-01,extend=True,hoge"
