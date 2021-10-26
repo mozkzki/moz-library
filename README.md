@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/mozkzki/moz-library/branch/main/graph/badge.svg?token=BRB5vsPkO2)](https://codecov.io/gh/mozkzki/moz-library)
 [![Maintainability](https://api.codeclimate.com/v1/badges/df50bbce59225073a577/maintainability)](https://codeclimate.com/github/mozkzki/moz-library/maintainability)
 
-図書館で借りた本, 予約した本の状況を取得する自前ライブラリ。
+図書館で借りた本や予約した本の状況を取得する自前ライブラリ。
 
 ## Function
 
