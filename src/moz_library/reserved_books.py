@@ -13,7 +13,7 @@ class ReservedBooks(Books):
         kind = data[4].get_text().strip()
         yoyaku_date = data[6].get_text().strip()
         torioki_date = data[7].get_text().strip()
-        receive_lib = data[8].get_text().strip()
+        receive_lib = data[9].get_text().strip()
 
         reserved_book = ReservedBook(
             status, order, title, kind, yoyaku_date, torioki_date, receive_lib
