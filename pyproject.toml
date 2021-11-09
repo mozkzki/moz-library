@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "moz-library"
-version = "0.1.0"
+version = "0.1.1"
 description = "mozkzki's book library library."
 authors = ["mozkzki <mozkzki@gmail.com>"]
 maintainers = ["mozkzki <mozkzki@gmail.com>"]
