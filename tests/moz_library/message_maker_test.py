@@ -24,11 +24,19 @@ class TestMessageMaker:
         info = UserBookInfo(User("{}"), reserved_books=reserved_books)
         message_maker1.get_all_users_reserved_books_message([info])
 
-    @pytest.mark.parametrize("zero_behavior", [("message"), ("none")])
-    def test_empty(self, zero_behavior, message_maker1: MessageMaker):
+    @pytest.mark.parametrize(
+        "zero_behavior, rental_book",
+        [
+            ("message", RentalBook("test", "2017/01/01", True, "hoge")),
+            ("none", RentalBook("test", "2017/01/01", True, "hoge")),
+            ("message", None),
+            ("none", None),
+        ],
+    )
+    def test_empty(self, zero_behavior, rental_book, message_maker1: MessageMaker):
         rental_books = RentalBooks()
-        book = RentalBook("test", "2017/01/01", True, "hoge")
-        rental_books.append(book)
+        if rental_book:
+            rental_books.append(rental_book)
         reserved_books = ReservedBooks()
         empty_info = UserBookInfo(
             User("{}"), rental_books=rental_books, reserved_books=reserved_books
