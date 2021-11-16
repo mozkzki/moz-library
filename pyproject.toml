@@ -26,7 +26,7 @@ python-dotenv = "^0.19.2"
 python-dateutil = "^2.8.1"
 selenium = "3.141.0"
 beautifulsoup4 = "^4.8.2"
-jinja2 = "^3.0.2"
+jinja2 = "^3.0.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
