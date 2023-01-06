@@ -10,6 +10,7 @@ executors:
 
 orbs:
   slack: circleci/slack@4.4.4
+  browser-tools: circleci/browser-tools@1.4.0
   codecov: codecov/codecov@3.2.3
 
 commands:
@@ -231,9 +232,13 @@ jobs:
       - sparse
       - restore
       - checkout
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - run:
           name: Test
           command: |
+            which google-chrome
+            which chromedriver
             source $(find . -name ${CIRCLE_PROJECT_REPONAME}*)/bin/activate
             make ut
       - codecov/upload
