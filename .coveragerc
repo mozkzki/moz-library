@@ -6,3 +6,4 @@ omit =
     */main.py
     */__main__.py
     */__init__.py
+    */*.tpl
